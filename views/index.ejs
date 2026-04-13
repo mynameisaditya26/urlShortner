@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Shortener</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 min-h-screen flex items-center justify-center">
+
+  <!-- Card -->
+  <div class="w-full max-w-3xl bg-gray-900/70 backdrop-blur-lg shadow-2xl rounded-2xl p-10 border border-gray-700">
+    
+    <!-- Header -->
+    <h1 class="text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 mb-8">
+      URL Shortener
+    </h1>
+    <p class="text-center text-gray-400 mb-6">Paste your long URL below and get a short link instantly</p>
+
+    <!-- Form -->
+    <form action="/shorten" method="POST" class="flex flex-col sm:flex-row gap-4">
+      <input 
+        type="text" 
+        name="fullUrl" 
+        placeholder="Enter full URL here..."
+        required
+        class="flex-1 px-4 py-3 rounded-xl bg-gray-800 border border-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button 
+        type="submit" 
+        class="px-6 py-3 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 rounded-xl font-semibold shadow-lg transition"
+      >
+        Shorten
+      </button>
+    </form>
+
+    <!-- Table -->
+    <div class="mt-10 overflow-x-auto">
+      <table class="w-full border border-gray-700 rounded-xl overflow-hidden">
+        <thead class="bg-gray-800/80 text-gray-300">
+          <tr>
+            <th class="py-3 px-4 text-left">Full URL</th>
+            <th class="py-3 px-4 text-left">Short URL</th>
+            <th class="py-3 px-4 text-center">Clicks</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-700">
+          <% if (urls.length === 0) { %>
+            <tr>
+              <td colspan="3" class="py-6 text-center text-gray-500">No URLs created yet. Start shortening!</td>
+            </tr>
+          <% } else { %>
+            <% urls.forEach(url => { %>
+              <tr class="hover:bg-gray-800 transition">
+                <td class="py-3 px-4 max-w-xs truncate">
+                  <a href="<%= url.full %>" target="_blank" class="text-blue-400 hover:underline">
+                    <%= url.full %>
+                  </a>
+                </td>
+                <td class="py-3 px-4">
+                  <a href="/<%= url.short %>" target="_blank" class="text-green-400 hover:underline">
+                    http://localhost:3000/<%= url.short %>
+                  </a>
+                </td>
+                <td class="py-3 px-4 text-center font-semibold text-yellow-400"><%= url.clicks %></td>
+              </tr>
+            <% }) %>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
